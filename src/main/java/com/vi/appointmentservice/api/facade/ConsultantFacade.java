@@ -107,8 +107,10 @@ public class ConsultantFacade {
       // Delete schedules
       Set<Integer> deletedSchedules = scheduleRepository.deleteUserSchedules(calcomUserId);
       // Delete availabilities for schedules
-      for (Integer scheduleId : deletedSchedules) {
-        availabilityRepository.deleteAvailabilityByScheduleId(Long.valueOf(scheduleId));
+      if (deletedSchedules != null) {
+        for (Integer scheduleId : deletedSchedules) {
+          availabilityRepository.deleteAvailabilityByScheduleId(Long.valueOf(scheduleId));
+        }
       }
 
       List<CalcomBooking> bookings = new ArrayList<>();
