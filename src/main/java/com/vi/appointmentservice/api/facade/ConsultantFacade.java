@@ -19,6 +19,7 @@ import com.vi.appointmentservice.api.service.AppointmentService;
 import com.vi.appointmentservice.model.CalcomUserToConsultant;
 import com.vi.appointmentservice.repository.UserToConsultantRepository;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -107,11 +108,13 @@ public class ConsultantFacade {
       // Delete schedules
       Set<Integer> deletedSchedules = scheduleRepository.deleteUserSchedules(calcomUserId);
       // Delete availabilities for schedules
-      if (deletedSchedules != null) {
-        for (Integer scheduleId : deletedSchedules) {
+
+      for (Integer scheduleId : deletedSchedules) {
+        if (scheduleId != null) {
           availabilityRepository.deleteAvailabilityByScheduleId(Long.valueOf(scheduleId));
         }
       }
+
 
       List<CalcomBooking> bookings = new ArrayList<>();
       bookings.addAll(bookingRepository.getConsultantActiveBookings(calcomUserId));
